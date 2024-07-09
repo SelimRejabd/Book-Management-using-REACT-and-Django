@@ -6,9 +6,8 @@
 4.  pip install -r requirements.txt
 5.  python manage.py makemigrations
 6.  python manage.py migrate
-7.  python manage.py runserver
-8.  cd frontend
-9.  npm install
-10. npm run build
-11. cd ..
-12. python manage.py runserver
+7.  cd frontend
+8.  npm install
+9. npm run build
+10. cd ..
+11. python manage.py runserver
