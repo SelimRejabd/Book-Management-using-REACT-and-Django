@@ -32,6 +32,7 @@ const EditBookForm = () => {
 
   useEffect(() => {
     if (successMessage) {
+      alert(successMessage);
       dispatch(clearMessages());
       navigate("/");
     }

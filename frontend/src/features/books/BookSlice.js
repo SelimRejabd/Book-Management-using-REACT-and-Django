@@ -68,7 +68,7 @@ const booksSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(fetchBook.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = 'idle';
         state.books = action.payload;
       })
       .addCase(fetchBook.rejected, (state, action) => {
@@ -80,8 +80,6 @@ const booksSlice = createSlice({
         state.successMessage = 'Book added successfully!';
       })
       .addCase(updateBook.fulfilled, (state, action) => {
-        const index = state.books.findIndex((book) => book.id === action.payload.id);
-        state.books[index] = action.payload;
         state.successMessage = 'Book updated successfully!';
       })
       .addCase(deleteBook.fulfilled, (state, action) => {
