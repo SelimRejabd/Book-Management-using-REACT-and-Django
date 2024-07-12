@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateBook, clearMessages } from "./BookSlice";
+import { fetchBook, updateBook, clearMessages } from "./BookSlice";
 import { useNavigate, useParams, Link } from "react-router-dom";
 
 const EditBookForm = () => {
@@ -8,14 +8,27 @@ const EditBookForm = () => {
   const navigate = useNavigate();
   const id = useParams().id;
   const successMessage = useSelector((state) => state.books.successMessage);
-  const book = useSelector((state) =>
-    state.books.books.find((book) => book.id === parseInt(id))
-  );
+  const book = useSelector((state) => state.books.books);
 
   const [title, setTitle] = useState(book.title);
   const [author, setAuthor] = useState(book.author);
   const [isbn, setIsbn] = useState(book.isbn);
   const [bookImage, setBookImage] = useState(book.book_image);
+
+  useEffect(() => {
+    if (id && id !== "") {
+      dispatch(fetchBook(id));
+    }
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    if (book) {
+      setTitle(book.title);
+      setAuthor(book.author);
+      setIsbn(book.isbn);
+      setBookImage(book.book_image);
+    }
+  }, [book]);
 
   useEffect(() => {
     if (successMessage) {
