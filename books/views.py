@@ -11,7 +11,11 @@ class BookViewSet(viewsets.ModelViewSet):
 
 @api_view(['GET'])
 def getBooks(request):
-    books = Book.objects.all()
+    search_query = request.query_params.get('search', None)
+    if search_query:
+        books = Book.objects.filter(title__icontains=search_query) | Book.objects.filter(author__icontains=search_query)
+    else:
+        books = Book.objects.all()
     serializer = BookSerializer(books, many=True)
     return Response(serializer.data)
 

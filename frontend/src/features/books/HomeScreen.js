@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchBooks, deleteBook, clearMessages } from "./BookSlice";
@@ -10,6 +10,11 @@ const HomeScreen = () => {
   const bookStatus = useSelector((state) => state.books.status);
   const error = useSelector((state) => state.books.error);
   const successMessage = useSelector((state) => state.books.successMessage);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    dispatch(fetchBooks(searchTerm));
+  }, [dispatch, searchTerm]);
 
   useEffect(() => {
     if (bookStatus === "idle") {
@@ -28,6 +33,10 @@ const HomeScreen = () => {
     if (window.confirm("Are you sure you want to delete this book?")) {
       dispatch(deleteBook(id));
     }
+  };
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
   };
 
   let content;
@@ -67,7 +76,19 @@ const HomeScreen = () => {
   return (
     <div className="container mx-auto p-4">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">Books</h1>
+        
+        <h1 className="text-2xl font-bold">BOOKS</h1>
+        <div>
+          <div className="mb-4">
+            <input
+              type="text"
+              placeholder="Search by title or author..."
+              value={searchTerm}
+              onChange={handleSearch}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+        </div>
         <Link to="/add-book/">
           <button className="bg-green-500 text-white p-2 rounded-full">
             <PlusIcon className="h-5 w-5" />
