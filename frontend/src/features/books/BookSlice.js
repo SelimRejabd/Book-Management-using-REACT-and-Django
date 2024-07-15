@@ -9,8 +9,8 @@ const initialState = {
   successMessage: null,
 };
 
-export const fetchBooks = createAsyncThunk('books/fetchBooks', async () => {
-  const response = await axios.get(`/books/`);
+export const fetchBooks = createAsyncThunk('books/fetchBooks', async (searchTerm='') => {
+  const response = await axios.get(`/books/?search=${searchTerm}`);
   return response.data;
 });
 
